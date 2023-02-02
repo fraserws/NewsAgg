@@ -1,0 +1,16 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% tailwind_css %}
+  </head>
+  <meta charset="utf-8" />
+  <title>News</title>
+  {% block content %} {% endblock %}
+
+  <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+    <div>
+      <p>Copyright © 2023 - All right reserved by ACME Industries Ltd</p>
+    </div>
+  </footer>
+</html>

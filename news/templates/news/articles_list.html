@@ -1,0 +1,14 @@
+{% extends 'news/base.html' %} {% block content %}
+<div class="grid grid-cols-2 w-screen">
+  {% for row in rows %}
+  <div className="card card-side bg-secondary shadow-xl col-span-1">
+    {% for entry in row %}
+    <div class="card-body">
+      <h2 class="card-title">{{entry.title}}</h2>
+      <p>{{entry.description | safe}}</p>
+      <a href="{{entry.url}} " target="_blank" class="btn btn-primary">link</a>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %} {% endblock %}
+</div>
