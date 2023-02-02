@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 
 import feedparser as fp
 import datetime as dt
+from bs4 import BeautifulSoup
 
 
 def article_list(request):
@@ -24,23 +25,20 @@ def new_feed(request):
         form = FeedForm(request.POST)
         if form.is_valid():
             feed = form.save(commit=False)
-
             feedData = fp.parse(feed.url)
             feed.title = feedData.feed.title
             feed.save()
             for entry in feedData.entries:
-                article = Article()
-                article.title = entry.title
-                article.url = entry.link
-                article.description = entry.description
-                d = dt.datetime(*entry.published_parsed[:6])
-                article.publication_date = d.strftime('%Y-%m-%d %H:%M:%S')
-
-                article.feed = feed
-
+                description = BeautifulSoup(
+                    entry.description, "html.parser").get_text()
+                description = ' '.join(description.split()[:100]) + ' ...'
+                article = Article(title=entry.title, url=entry.link,
+                                  description=description,
+                                  publication_date=dt.datetime(
+                                      *entry.published_parsed[:6]).strftime('%Y-%m-%d %H:%M:%S'),
+                                  feed=feed)
                 article.save()
             return redirect('feeds_list')
-
     else:
         form = FeedForm()
     return render(request, 'news/new_feed.html', {'form': form})

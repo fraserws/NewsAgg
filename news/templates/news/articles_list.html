@@ -1,13 +1,21 @@
 {% extends 'news/base.html' %} {% block content %}
-<div class="grid grid-cols-2 w-screen">
+<div class="grid w-screen grid-cols-1 lg:grid-cols-2 mx-2">
   {% for row in rows %}
-  <div className="card card-side bg-secondary shadow-xl col-span-1">
+  <div className="card rounded-lg  ">
     {% for entry in row %}
-    <div class="card-body">
+    <div class="card-body shadow-xl h-96 bg-base-300 m-3">
       <h2 class="card-title">{{entry.title}}</h2>
-      <p>{{entry.description | safe}}</p>
-      <a href="{{entry.url}} " target="_blank" class="btn btn-primary">link</a>
+      <p class="text-ellipsis">{{entry.description | safe}}</p>
+      <div class="card-actions justify-end">
+        <a href="{{entry.url}} " c target="_blank" class="btn btn-primary"
+          >Read more</a
+        >
+      </div>
+      <p class="card-subtitle text-base-content text-opacity-50">
+        {{entry.publication_date}}
+      </p>
     </div>
+
     {% endfor %}
   </div>
   {% endfor %} {% endblock %}
